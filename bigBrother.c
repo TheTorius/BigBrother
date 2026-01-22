@@ -8,6 +8,8 @@
 #include <stdint.h>
 
 char GLOBAL_SERVER_IP[16];
+int MAX_WIN_COUNT = 2;
+int PORT = 12345;
 
 const char *BLACKLIST[] = {
 	"chrome",
@@ -33,6 +35,29 @@ typedef struct Packet {
 } Packet;
 #pragma pack(pop)
 
+BOOL CALLBACK CountAppsCallback(HWND hwnd, LPARAM lParam) {
+	int* counter = (int*)lParam; // Získáme ukazatel na náš čítač
+	
+	// Počítáme jen okna, která jsou vidět
+	if (IsWindowVisible(hwnd)) {
+		char title[256];
+		GetWindowText(hwnd, title, 256);
+		
+		// A mají nějaký název (tím vyloučíme skryté systémové prvky)
+		if (strlen(title) > 0) {
+			(*counter)++;
+		}
+	}
+	return TRUE; // Pokračuj k dalšímu oknu
+}
+
+int get_app_count() {
+	int count = 0;
+	// Spustí sčítání, předáme adresu proměnné 'count'
+	EnumWindows(CountAppsCallback, (LPARAM)&count); 
+	return count;
+}
+
 BOOL WINAPI ConsoleHandler(DWORD signal) {
 	if (signal == CTRL_CLOSE_EVENT || signal == CTRL_C_EVENT || signal == CTRL_BREAK_EVENT) {
 		// Uživatel klikl na křížek nebo zmáčkl Ctrl+C
@@ -41,7 +66,7 @@ BOOL WINAPI ConsoleHandler(DWORD signal) {
 		
 		// Odeslání zprávy o ukončení
 		// Použijeme globální IP, kterou jsme si uložili v main
-		send_alert_packet(GLOBAL_SERVER_IP, 12345, ALERT, "Student zavrel okno!");
+		send_alert_packet(GLOBAL_SERVER_IP, PORT, ALERT, "Student zavrel okno!");
 		
 		// Důležité: Krátká pauza, aby se stihla data odeslat po síti,
 		// než Windows proces nemilosrdně zabije.
@@ -114,9 +139,22 @@ void monitor_environment(char* ip) {
 			
 			if (is_forbidden(window_title)) {
 				printf("[ALERT] DETEKOVAN ZAKAZANY SW! Odesilam hlaseni na RPi...\n");
-				send_alert_packet(GLOBAL_SERVER_IP,12345,ALERT,window_title);
+				send_alert_packet(GLOBAL_SERVER_IP,PORT,ALERT,window_title);
 			}
 		}
+	}
+	
+	int app_count = get_app_count();
+	
+	// Vypisujeme do konzole pro info
+	printf("Pocet oken: %d\n", app_count); 
+	
+	if (app_count > MAX_WIN_COUNT) {
+		printf("[WARNING] Moc otevrenych oken (%d)! Hlasim...\n", app_count);
+		
+		char msg[64];
+		snprintf(msg, 64, "Moc oken: %d", app_count);
+		send_alert_packet(ip, 12345, ALERT, msg);
 	}
 }
 
@@ -131,10 +169,13 @@ void snapshot_code(const char *filepath) {
 }
 
 int main(int argc, char* argv[]) {
-	if(argc < 3) return 450;
+	if(argc < 5) return 450;
 	
 	strncpy(GLOBAL_SERVER_IP, argv[2], 15);
 	GLOBAL_SERVER_IP[15] = '\0';
+	
+	PORT = atoi(argv[3]);
+	MAX_WIN_COUNT = atoi(argv[4]);
 	
 	if (!SetConsoleCtrlHandler(ConsoleHandler, TRUE)) {
 		printf("\nCHYBA: Nepodarilo se nastavit odchytavani zavreni okna!\n");

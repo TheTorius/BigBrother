@@ -28,9 +28,13 @@ private:
     QLabel* fileName;
     QLabel* IPaddress;
     QLabel* logo;
+    QLabel* port;
+    QLabel* maxWindowCount;
 
     QLineEdit* fileNameEdit;
     QLineEdit* IPaddressEdit;
+    QLineEdit* maxWindowCountEdit;
+    QLineEdit* portEdit;
 
     QPushButton* accept;
 
