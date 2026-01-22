@@ -7,6 +7,8 @@
 #include <time.h>
 #include <stdint.h>
 
+char GLOBAL_SERVER_IP[16];
+
 const char *BLACKLIST[] = {
 	"chrome",
 	"firefox",
@@ -22,12 +24,33 @@ typedef enum alertType{
 	WARNING = 1
 }alertType;
 
-typedef struct Packet{
-	char ip[16];
-	alertType type;
-	time_t timestamp;
-	char message[64];
-}Packet;
+#pragma pack(push, 1)
+typedef struct Packet {
+	char ip[16];        // Identifikátor/IP klienta
+	int type;           // AlertType
+	int64_t timestamp;  // Časová značka
+	char message[64];   // Zpráva (např. název okna)
+} Packet;
+#pragma pack(pop)
+
+BOOL WINAPI ConsoleHandler(DWORD signal) {
+	if (signal == CTRL_CLOSE_EVENT || signal == CTRL_C_EVENT || signal == CTRL_BREAK_EVENT) {
+		// Uživatel klikl na křížek nebo zmáčkl Ctrl+C
+		
+		printf("\n[SYSTEM] Pokus o ukonceni detekovan! Odesilam zpravu na server...\n");
+		
+		// Odeslání zprávy o ukončení
+		// Použijeme globální IP, kterou jsme si uložili v main
+		send_alert_packet(GLOBAL_SERVER_IP, 12345, ALERT, "Student zavrel okno!");
+		
+		// Důležité: Krátká pauza, aby se stihla data odeslat po síti,
+		// než Windows proces nemilosrdně zabije.
+		Sleep(1000); 
+		
+		return TRUE; // TRUE = signál byl obsloužen
+	}
+	return FALSE;
+}
 
 void send_alert_packet(const char* server_ip, int port, alertType type, const char* details) {
 	SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -50,8 +73,8 @@ void send_alert_packet(const char* server_ip, int port, alertType type, const ch
 	
 	Packet pkt;
 	memset(&pkt, 0, sizeof(Packet)); // Vynulování paměti
+	gethostname(pkt.ip, sizeof(pkt.ip));
 	
-	strcpy(pkt.ip, "CLIENT_ID_1"); 
 	pkt.type = (int)type;
 	pkt.timestamp = (int64_t)time(NULL);
 	
@@ -91,7 +114,7 @@ void monitor_environment(char* ip) {
 			
 			if (is_forbidden(window_title)) {
 				printf("[ALERT] DETEKOVAN ZAKAZANY SW! Odesilam hlaseni na RPi...\n");
-				send_alert_packet(ip,8080,ALERT,window_title);
+				send_alert_packet(GLOBAL_SERVER_IP,12345,ALERT,window_title);
 			}
 		}
 	}
@@ -109,6 +132,13 @@ void snapshot_code(const char *filepath) {
 
 int main(int argc, char* argv[]) {
 	if(argc < 3) return 450;
+	
+	strncpy(GLOBAL_SERVER_IP, argv[2], 15);
+	GLOBAL_SERVER_IP[15] = '\0';
+	
+	if (!SetConsoleCtrlHandler(ConsoleHandler, TRUE)) {
+		printf("\nCHYBA: Nepodarilo se nastavit odchytavani zavreni okna!\n");
+	}
 	
 	printf("Spoustim monitoring klienta (Big Brother - Safe Edition)...\n");
 	printf("Sledovany soubor: %s\n", argv[1]);
