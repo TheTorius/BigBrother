@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>images/unnamed.jpg</file>
+        <file>images/hypno.jpg</file>
+    </qresource>
+</RCC>
