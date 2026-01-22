@@ -2,5 +2,6 @@
     <qresource prefix="/icons">
         <file>images/hypno.jpg</file>
         <file>images/unnamed.jpg</file>
+        <file>images/MIT.png</file>
     </qresource>
 </RCC>

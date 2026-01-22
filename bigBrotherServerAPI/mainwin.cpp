@@ -65,6 +65,29 @@ MainWin::MainWin(QWidget *parent)
     this->baseLayout->addWidget(this->classroomBox,2,1,1,1,Qt::AlignLeft);
     this->baseLayout->addWidget(this->accept,3,0,1,2,Qt::AlignCenter);
 
+    /////////////////////////////////////////////////////
+
+    connect(this->accept,&QPushButton::clicked,this,[this](){
+        QString appPath = QCoreApplication::applicationDirPath();
+        QString programPath = QDir::toNativeSeparators(appPath + "/bigBrotherServer.exe");
+
+        QString program = "cmd.exe";
+        QStringList arguments;
+
+        arguments << "/C"     // Řekne CMD: "Proveď následující příkaz a skonči (ale nové okno zůstane)"
+                  << "start"  // Příkaz Windows pro otevření nového okna
+                  << "Big Brother Monitor"; // PRVNÍ argument startu je vždy TITULEK okna (důležité!)
+
+        arguments << programPath;
+
+        QProcess::startDetached(program, arguments);
+
+        Plan* plan = new Plan(this->portIdEdit->text().toInt()+1);
+
+        plan->show();
+
+        this->close();
+    });
 }
 
 MainWin::~MainWin() {

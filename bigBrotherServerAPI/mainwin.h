@@ -1,25 +1,7 @@
 #ifndef MAINWIN_H
 #define MAINWIN_H
 
-#include <QWidget>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QFile>
-#include <QGridLayout>
-#include <QProcess>
-#include <QCoreApplication>
-#include <QMessageBox>
-#include <QFile>
-#include <QDir>
-#include <QIcon>
-#include <QStyleOption>
-#include <QPainter>
-#include <QtXml/QDomDocument>
-#include <QComboBox>
-#include <QStandardItemModel>
-#include <QStandardItem>
-#include <QVariant>
+#include "plan.h"
 
 class MainWin : public QWidget
 {
