@@ -16,12 +16,12 @@ FILETYPE VFT_APP
 {
   BLOCK "StringFileInfo"
   {
-    BLOCK "040904e4"
+    BLOCK "040504e4"
     {
-      VALUE "CompanyName", ""
+      VALUE "CompanyName", "Bc. Lukáš Horák"
       VALUE "FileVersion", "0.1"
-      VALUE "FileDescription", "Developed using the Red Panda C++ IDE"
-      VALUE "InternalName", ""
+      VALUE "FileDescription", "Monitoring software"
+      VALUE "InternalName", "BigBrother"
       VALUE "LegalCopyright", ""
       VALUE "LegalTrademarks", ""
       VALUE "OriginalFilename", "BigBrotherClient.exe"
@@ -31,6 +31,6 @@ FILETYPE VFT_APP
   }
   BLOCK "VarFileInfo"
   {
-    VALUE "Translation", 0x0409, 1252
+    VALUE "Translation", 0x0405, 1252
   }
 }

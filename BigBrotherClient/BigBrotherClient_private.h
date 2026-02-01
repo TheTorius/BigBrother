@@ -10,10 +10,10 @@
 #define VER_MINOR	0
 #define VER_RELEASE	1
 #define VER_BUILD	0
-#define COMPANY_NAME	""
+#define COMPANY_NAME	"Bc. Lukáš Horák"
 #define FILE_VERSION	"0.1"
-#define FILE_DESCRIPTION	"Developed using the Red Panda C++ IDE"
-#define INTERNAL_NAME	""
+#define FILE_DESCRIPTION	"Monitoring software"
+#define INTERNAL_NAME	"BigBrother"
 #define LEGAL_COPYRIGHT	""
 #define LEGAL_TRADEMARKS	""
 #define ORIGINAL_FILENAME	"BigBrotherClient.exe"

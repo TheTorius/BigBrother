@@ -41,7 +41,7 @@ int send_alert_packet(const char* server_ip, int port, alertType type, const cha
 	SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET) {
 		printf("Chyba vytvoreni socketu: %d\n", WSAGetLastError());
-		return;
+		return 0;
 	}
 	
 	struct sockaddr_in server_addr;
