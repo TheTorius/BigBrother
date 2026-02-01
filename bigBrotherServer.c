@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <conio.h>
 #include <stdint.h>
 
 // --- MULTIPLATFORMNÍ HLAVIČKY A MAKRA ---
@@ -29,11 +30,25 @@
 	#define SOCK_VALID(s) ((s) >= 0)
 #endif
 
-// --- DEKLARACE STRUKTUR (Musí být shodné s klientem!) ---
+typedef struct SocketNode {
+	SOCKET* socket;
+	struct SocketNode* nextNode;
+}SocketNode;
 
+typedef struct SocketList {
+	SocketNode* start;
+	SocketNode* last;
+	int numOfNodes;
+}SocketList;
+
+// --- DEKLARACE STRUKTUR (Musí být shodné s klientem!) ---
 typedef enum alertType{
-	ALERT = 0,
-	WARNING = 1
+	HELLO = 0,
+	CONFIG = 1,
+	ALERT = 2,
+	WARNING = 3,
+	BYE = 4,
+	START = 5
 }alertType;
 
 #pragma pack(push, 1)
@@ -55,10 +70,16 @@ void print_packet(Packet *pkt, const char* client_ip) {
 	// Formátování času na čitelný řetězec
 	strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", timeinfo);
 	
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	
 	const char* type_str;
 	switch(pkt->type) {
-		case ALERT: type_str = "ALERT"; break;
-		default: type_str = "UNKNOWN"; break;
+		case ALERT: type_str = "ALERT"; SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY); break;
+		case HELLO: type_str = "HELLO"; SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY); break;
+		case CONFIG: type_str = "CONFIG"; SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY); break;
+		case WARNING: type_str = "WARNING"; SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY); break;
+		case BYE: type_str = "BYE"; SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY); break;
+		default: type_str = "UNKNOWN"; SetConsoleTextAttribute(hConsole, FOREGROUND_INTENSITY); break;
 	}
 	
 	printf("--------------------------------------------------\n");
@@ -66,11 +87,27 @@ void print_packet(Packet *pkt, const char* client_ip) {
 	printf("Cas:   %s\n", buffer);
 	printf("Typ:   %s\n", type_str);
 	printf("Zprava: %s\n", pkt->message);
-	printf("--------------------------------------------------\n");
+	printf("--------------------------------------------------");
+}
+
+void send_response(SOCKET socket, alertType type, char* string) {
+	Packet response;
+	memset(&response, 0, sizeof(Packet)); 
+	gethostname(response.ip, sizeof(response.ip));
+	response.type = type;
+	response.timestamp = (int64_t)time(NULL);
+	strncpy(response.message, string, 63);
+	
+	send(socket, (char*)&response, sizeof(Packet), 0);
 }
 
 int main() {
-	SOCKET server_fd, new_socket;
+	SocketList list;
+	list.start = NULL;
+	list.last = NULL;
+	list.numOfNodes = 0;
+	
+	SOCKET server_fd;
 	struct sockaddr_in address;
 	int addrlen = sizeof(address);
 	
@@ -80,6 +117,7 @@ int main() {
 		printf("Chyba: WSAStartup selhal.\n");
 		return 1;
 	}
+	SetConsoleOutputCP(65001);
 #endif
 	
 	if (!SOCK_VALID(server_fd = socket(AF_INET, SOCK_STREAM, 0))) {
@@ -112,22 +150,77 @@ int main() {
 	printf("Server bezi a nasloucha na portu %d...\n", PORT);
 	printf("Cekam na packety od studentu...\n\n");
 	
+	u_long mode = 1; // 1 = neblokující, 0 = blokující
+	ioctlsocket(server_fd, FIONBIO, &mode);
+	
 	while (1) {
+		if (GetAsyncKeyState('P') & 0x8000) {
+			printf("Posilam start\n");
+			SocketNode* np = NULL;
+			for(SocketNode* n = list.start; n != NULL; n = n->nextNode) {
+				if(np != NULL) {
+					CLOSE_SOCKET(*np->socket);
+					free(np);
+				}
+				send_response(*n->socket,START,"START");
+				np = n;
+			}
+			if(list.numOfNodes > 0) {
+				CLOSE_SOCKET(*np->socket);
+				free(np);
+			}
+			list.start = NULL;
+			list.last = NULL;
+			list.numOfNodes = 0;
+			Sleep(200);
+			system("cls");
+		}
+		
 		struct sockaddr_in client_addr;
 		socklen_t client_len = sizeof(client_addr);
 		
-		new_socket = accept(server_fd, (struct sockaddr *)&client_addr, &client_len);
+		SOCKET* new_socket = malloc(sizeof(SOCKET));
 		
-		if (!SOCK_VALID(new_socket)) {
-			perror("Chyba pri Accept");
+		*new_socket = accept(server_fd, (struct sockaddr *)&client_addr, &client_len);
+		
+		if (!SOCK_VALID(*new_socket)) {
+			int err = WSAGetLastError();
+			free(new_socket); // Tady nikdo neni, uvolníme paměť a zkusíme to znova
+			
+			// Pokud je to jen "WSAEWOULDBLOCK", neni to chyba, jen nikdo neni pripojen
+			if (err != WSAEWOULDBLOCK) {
+				// Tady muzes neco vypsat, pokud chces videt skutecne chyby
+			}
+			
+			Sleep(10); // Důležité: Šetříme CPU
 			continue;
-		}
+		} 
+		
+		u_long block_mode = 0; 
+		ioctlsocket(*new_socket, FIONBIO, &block_mode);
 		
 		Packet pkt;
-		int bytes_read = recv(new_socket, (char*)&pkt, sizeof(Packet), 0);
+		int bytes_read = recv(*new_socket, (char*)&pkt, sizeof(Packet), 0);
 		
 		if (bytes_read == sizeof(Packet)) {
 			char *client_ip = inet_ntoa(client_addr.sin_addr);
+			
+			switch (pkt.type) {
+				case HELLO: {
+					send_response(*new_socket,HELLO,"HELLO");
+					break;
+				}
+				case CONFIG: {
+					send_response(*new_socket,CONFIG,"CONFIG");
+					break;
+				}
+				case START:
+					list.numOfNodes++;
+					printf("Clients: %d\n", list.numOfNodes);
+					break;
+				default:
+					break;
+			}
 			
 			print_packet(&pkt, client_ip);
 			MessageBeep(MB_ICONASTERISK);
@@ -135,7 +228,20 @@ int main() {
 			printf("[CHYBA] Prijat neuplny packet nebo spatna velikost dat.\n");
 		}
 		
-		CLOSE_SOCKET(new_socket);
+		if(pkt.type != START) CLOSE_SOCKET(*new_socket);
+		else {
+			SocketNode* node = malloc(sizeof(SocketNode));
+			node->socket = new_socket;
+			node->nextNode = NULL;
+			
+			if(list.start == NULL) {
+				list.start = node;
+				list.last = node;
+			} else {
+				list.last->nextNode = node;
+				list.last = node;
+			}
+		}
 	}
 	
 	CLOSE_SOCKET(server_fd);

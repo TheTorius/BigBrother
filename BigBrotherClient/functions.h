@@ -11,5 +11,6 @@ bool is_forbidden(char *window_title);
 void monitor_environment(char* ip);
 void snapshot_code(const char *filepath);
 void install_to_startup(const char* app_name);
+void setupConsole();
 
 #endif

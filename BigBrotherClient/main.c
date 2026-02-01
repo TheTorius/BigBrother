@@ -39,6 +39,8 @@ int main(int argc, char* argv[]) {
 	
 	if(PORT == 0 || GLOBAL_SERVER_IP[0] == '\0' || MAX_WIN_COUNT == 0) exit(EXIT_FAILURE);
 	
+	setupConsole();
+	
 	install_to_startup("BigBrotherClient");
 	
 	if (!SetConsoleCtrlHandler(ConsoleHandler, TRUE)) {
@@ -53,6 +55,8 @@ int main(int argc, char* argv[]) {
 	gethostname(str,sizeof(str));
 	send_alert_packet(GLOBAL_SERVER_IP,PORT+1,ALERT,str);
 	
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
 	printf("Spoustim monitoring klienta (Big Brother)...\n");
 	printf("Sledovany soubor: %s\n", "nullptr");
 	printf("Server IP: %s:%d\n", GLOBAL_SERVER_IP, PORT);
@@ -69,6 +73,12 @@ int main(int argc, char* argv[]) {
 	SetConsoleTitle(title);
 	
 	system("pause");
+	
+	send_alert_packet(GLOBAL_SERVER_IP,PORT,HELLO,"HELLO");
+	Sleep(2000);
+	send_alert_packet(GLOBAL_SERVER_IP,PORT,CONFIG,"CONFIG");
+	Sleep(2000);
+	send_alert_packet(GLOBAL_SERVER_IP,PORT,START,"START");
 	
 	while (1) {
 		monitor_environment(GLOBAL_SERVER_IP);

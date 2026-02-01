@@ -58,14 +58,24 @@ void send_alert_packet(const char* server_ip, int port, alertType type, const ch
 	Packet pkt;
 	memset(&pkt, 0, sizeof(Packet)); 
 	gethostname(pkt.ip, sizeof(pkt.ip));
-	
 	pkt.type = (int)type;
 	pkt.timestamp = (int64_t)time(NULL);
-	
 	strncpy(pkt.message, details, 63);
 	
 	send(sock, (char*)&pkt, sizeof(Packet), 0);
 	printf(">> Odeslan packet [TYPE: %d] na server.\n", type);
+	
+	if (type == HELLO || type == CONFIG || type == START) {
+		printf(".. cekam na potvrzeni od serveru ..\n");
+		Packet response;
+		int bytes = recv(sock, (char*)&response, sizeof(Packet), 0);
+		
+		if (bytes > 0) {
+			printf("<< Prijata odpoved: %s\n", response.message);
+		} else {
+			printf("!! Server neodpovedel nebo ukoncil spojeni.\n");
+		}
+	}
 	
 	closesocket(sock);
 }
@@ -150,4 +160,11 @@ void install_to_startup(const char* app_name) {
 	}
 	
 	RegCloseKey(hKey);
+}
+
+void setupConsole() {
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD dwMode = 0;
+	GetConsoleMode(hOut, &dwMode);
+	SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 }
