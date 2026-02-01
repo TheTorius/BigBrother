@@ -25,7 +25,7 @@
 
 #pragma pack(push, 1)
 struct Packet {
-    char hostname[16];
+    char ip[16];
     int type;
     long long timestamp;
     char message[64];

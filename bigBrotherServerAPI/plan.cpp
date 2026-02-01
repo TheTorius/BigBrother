@@ -64,7 +64,7 @@ void Plan::onReadyRead()
 
         const Packet *pkt = reinterpret_cast<const Packet*>(data.constData());
 
-        QString pcName = QString::fromLatin1(pkt->hostname); // Název PC (např. MIT1HP)
+        QString pcName = QString::fromLatin1(pkt->ip); // Název PC (např. MIT1HP)
         QString message = QString::fromLatin1(pkt->message); // Zpráva (např. "chrome")
         int type = pkt->type;
 
@@ -77,10 +77,10 @@ void Plan::onReadyRead()
 void Plan::updateButtonStatus(QString name, int type, QString msg)
 {
     for(int i = 0; i < 16; i++) {
-        if(QString::compare(this->array[i]->text(), msg, Qt::CaseInsensitive) == 0) {
+        if(QString::compare(this->array[i]->text(), name, Qt::CaseInsensitive) == 0) {
 
             QPushButton *btn = this->array[i];
-            btn->setStyleSheet("background-color: rgb(153,255,0)");
+            btn->setStyleSheet("background-color: rgb(153,255,0);");
         }
     }
 }

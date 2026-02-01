@@ -7,6 +7,8 @@
 #include <time.h>
 #include <stdint.h>
 
+#define VERSION 1.0
+
 char GLOBAL_SERVER_IP[16];
 int MAX_WIN_COUNT = 2;
 int PORT = 12345;
@@ -18,6 +20,13 @@ const char *BLACKLIST[] = {
 	"opera",
 	"seznam",
 	"chat",
+	"winscp",
+	"cmd",
+	"console",
+	"far",
+	"outlook",
+	"teams",
+	"kazov",
 	NULL 
 };
 
@@ -67,6 +76,9 @@ BOOL WINAPI ConsoleHandler(DWORD signal) {
 		// Odeslání zprávy o ukončení
 		// Použijeme globální IP, kterou jsme si uložili v main
 		send_alert_packet(GLOBAL_SERVER_IP, PORT, ALERT, "Student zavrel okno!");
+		char str[16];
+		gethostname(str,sizeof(str));
+		send_alert_packet(GLOBAL_SERVER_IP,PORT+1,ALERT,str);
 		
 		// Důležité: Krátká pauza, aby se stihla data odeslat po síti,
 		// než Windows proces nemilosrdně zabije.
@@ -135,10 +147,10 @@ void monitor_environment(char* ip) {
 		GetWindowText(foreground_window, window_title, 256);
 		
 		if (strlen(window_title) > 0) {
-			printf("Student se diva na: %s\n", window_title);
+			//printf("Student se diva na: %s\n", window_title);
 			
 			if (is_forbidden(window_title)) {
-				printf("[ALERT] DETEKOVAN ZAKAZANY SW! Odesilam hlaseni na RPi...\n");
+				printf("[ALERT] DETEKOVAN ZAKAZANY SW! Odesilam hlaseni na Server...\n");
 				send_alert_packet(GLOBAL_SERVER_IP,PORT,ALERT,window_title);
 			}
 		}
@@ -147,7 +159,7 @@ void monitor_environment(char* ip) {
 	int app_count = get_app_count();
 	
 	// Vypisujeme do konzole pro info
-	printf("Pocet oken: %d\n", app_count); 
+	//printf("Pocet oken: %d\n", app_count); 
 	
 	if (app_count > MAX_WIN_COUNT) {
 		printf("[WARNING] Moc otevrenych oken (%d)! Hlasim...\n", app_count);
@@ -161,10 +173,10 @@ void monitor_environment(char* ip) {
 void snapshot_code(const char *filepath) {
 	FILE *file = fopen(filepath, "r");
 	if (file) {
-		printf("Vytvarim snapshot souboru: %s\n", filepath);
+		//printf("Vytvarim snapshot souboru: %s\n", filepath);
 		fclose(file);
 	} else {
-		printf("Soubor se studentovym kodem nenalezen.\n");
+		//printf("Soubor se studentovym kodem nenalezen.\n");
 	}
 }
 
@@ -181,9 +193,17 @@ int main(int argc, char* argv[]) {
 		printf("\nCHYBA: Nepodarilo se nastavit odchytavani zavreni okna!\n");
 	}
 	
-	printf("Spoustim monitoring klienta (Big Brother - Safe Edition)...\n");
+	char title[256];
+	sprintf(title,"Big Brother v%.1f - %d", VERSION, MAX_WIN_COUNT);
+	
+	char str[16];
+	gethostname(str,sizeof(str));
+	send_alert_packet(GLOBAL_SERVER_IP,PORT+1,ALERT,str);
+	
+	printf("Spoustim monitoring klienta (Big Brother)...\n");
 	printf("Sledovany soubor: %s\n", argv[1]);
-	printf("Server IP: %s\n", argv[2]);
+	printf("Server IP: %s:%s\n", argv[2],argv[3]);
+	printf("Verze BigBrothera: %.1f\n", VERSION);
 	
 	int timer = 0;
 	
@@ -192,6 +212,10 @@ int main(int argc, char* argv[]) {
 		printf("Selhala inicializace Winsock.\n");
 		return 1;
 	}
+	
+	SetConsoleTitle(title);
+	
+	system("pause");
 	
 	while (1) {
 		monitor_environment(argv[2]);

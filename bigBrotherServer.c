@@ -45,7 +45,7 @@ typedef struct Packet {
 } Packet;
 #pragma pack(pop)
 
-#define PORT 12345
+int PORT = 12345;
 
 void print_packet(Packet *pkt, const char* client_ip) {
 	time_t raw_time = (time_t)pkt->timestamp;
@@ -130,6 +130,7 @@ int main() {
 			char *client_ip = inet_ntoa(client_addr.sin_addr);
 			
 			print_packet(&pkt, client_ip);
+			MessageBeep(MB_ICONASTERISK);
 		} else {
 			printf("[CHYBA] Prijat neuplny packet nebo spatna velikost dat.\n");
 		}
