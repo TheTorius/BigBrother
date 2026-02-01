@@ -1,0 +1,32 @@
+[
+    {
+        "caretX": 1,
+        "caretY": 1,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/main.c",
+        "focused": false,
+        "isOpen": true,
+        "left": 0,
+        "order": 0,
+        "top": 0
+    },
+    {
+        "caretX": 65,
+        "caretY": 5,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/functions.h",
+        "focused": true,
+        "isOpen": true,
+        "left": 0,
+        "order": 2,
+        "top": 0
+    },
+    {
+        "caretX": 19,
+        "caretY": 58,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/config.h",
+        "focused": false,
+        "isOpen": true,
+        "left": 0,
+        "order": 1,
+        "top": 1300
+    }
+]

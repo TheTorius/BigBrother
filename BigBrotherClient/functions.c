@@ -37,7 +37,7 @@ BOOL WINAPI ConsoleHandler(DWORD signal) {
 	return FALSE;
 }
 
-void send_alert_packet(const char* server_ip, int port, alertType type, const char* details) {
+int send_alert_packet(const char* server_ip, int port, alertType type, const char* details) {
 	SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET) {
 		printf("Chyba vytvoreni socketu: %d\n", WSAGetLastError());
@@ -52,7 +52,7 @@ void send_alert_packet(const char* server_ip, int port, alertType type, const ch
 	if (connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
 		printf("Nelze se pripojit k serveru %s\n", server_ip);
 		closesocket(sock);
-		return;
+		return 0;
 	}
 	
 	Packet pkt;
@@ -74,10 +74,14 @@ void send_alert_packet(const char* server_ip, int port, alertType type, const ch
 			printf("<< Prijata odpoved: %s\n", response.message);
 		} else {
 			printf("!! Server neodpovedel nebo ukoncil spojeni.\n");
+			return 0;
 		}
+		if(response.type == type) return 2;
+		return 0;
 	}
 	
 	closesocket(sock);
+	return 1;
 }
 
 bool is_forbidden(char *window_title) {

@@ -1,32 +1,42 @@
 [
     {
-        "caretX": 1,
-        "caretY": 14,
+        "caretX": 11,
+        "caretY": 28,
         "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/config.h",
         "focused": false,
         "isOpen": true,
         "left": 0,
         "order": 1,
-        "top": 0
+        "top": 525
     },
     {
-        "caretX": 46,
-        "caretY": 13,
+        "caretX": 21,
+        "caretY": 14,
         "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/functions.h",
-        "focused": true,
+        "focused": false,
         "isOpen": true,
         "left": 0,
         "order": 2,
         "top": 0
     },
     {
-        "caretX": 2,
-        "caretY": 64,
+        "caretX": 3,
+        "caretY": 72,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/functions.c",
+        "focused": false,
+        "isOpen": true,
+        "left": 0,
+        "order": 3,
+        "top": 3925
+    },
+    {
+        "caretX": 57,
+        "caretY": 81,
         "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/main.c",
         "focused": false,
         "isOpen": true,
         "left": 0,
         "order": 0,
-        "top": 0
+        "top": 2025
     }
 ]

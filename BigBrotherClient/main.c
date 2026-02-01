@@ -74,23 +74,31 @@ int main(int argc, char* argv[]) {
 	
 	system("pause");
 	
-	send_alert_packet(GLOBAL_SERVER_IP,PORT,HELLO,"HELLO");
-	Sleep(2000);
-	send_alert_packet(GLOBAL_SERVER_IP,PORT,CONFIG,"CONFIG");
-	Sleep(2000);
-	send_alert_packet(GLOBAL_SERVER_IP,PORT,START,"START");
+	while(1){
 	
-	while (1) {
-		monitor_environment(GLOBAL_SERVER_IP);
-		
-		if (timer % 10 == 0) {
-			//snapshot_code();
+		while(1) {
+			while(1){
+				if(send_alert_packet(GLOBAL_SERVER_IP,PORT,HELLO,"HELLO") == 2) break;
+				Sleep(2000);
+			}
+			Sleep(500);
+			if(send_alert_packet(GLOBAL_SERVER_IP,PORT,CONFIG,"CONFIG") != 2) continue;
+			Sleep(500);
+			if(send_alert_packet(GLOBAL_SERVER_IP,PORT,START,"START") != 2) continue;
+			break;
 		}
-		
-		timer++;
-		Sleep(1000); 
+			
+		while (1) {
+			monitor_environment(GLOBAL_SERVER_IP);
+			
+			if (timer % 10 == 0) {
+				//snapshot_code();
+			}
+			
+			timer++;
+			Sleep(1000); 
+		}
 	}
-	
 	WSACleanup();
 	
 	return 0;

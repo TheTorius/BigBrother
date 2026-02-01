@@ -1,0 +1,40 @@
+# Project: BigBrotherServer
+# Makefile created by Red Panda C++ 3.3.3147
+
+CXX      = "g++.exe"
+CC       = "gcc.exe"
+WINDRES  = "windres.exe"
+RM       = del /q /f
+CD       = cd /d
+LIBS     = "-Wl,--stack,12582912" "-lws2_32"
+INCS     = 
+CXXINCS  = 
+CXXFLAGS = $(CXXINCS) "-g3" "-pipe" "-Wall" "-D_DEBUG"
+CFLAGS   = $(INCS) "-g3" "-pipe" "-Wall" "-D_DEBUG"
+WINDRESFLAGS = 
+RES      = BigBrotherServer_private.res
+OBJ      = main.o functions.o $(RES)
+BIN      = BigBrotherServer.exe
+LINKOBJ  = "main.o" "functions.o" "BigBrotherServer_private.res"
+CLEANOBJ = "main.o" "functions.o" "BigBrotherServer_private.res" "BigBrotherServer.exe"
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) >NUL 2>&1
+
+BigBrotherServer.exe: $(OBJ)
+
+	$(CC) $(LINKOBJ) -o "BigBrotherServer.exe" $(LIBS)
+
+main.o: main.c functions.h config.h
+	$(CC) -c "main.c" -o "main.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
+
+functions.o: functions.c functions.h config.h
+	$(CC) -c "functions.c" -o "functions.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
+
+BigBrotherServer_private.res: BigBrotherServer_private.rc 
+	$(WINDRES) -i "BigBrotherServer_private.rc" --input-format=rc -o "BigBrotherServer_private.res" -O coff $(WINDRESFLAGS) 
+

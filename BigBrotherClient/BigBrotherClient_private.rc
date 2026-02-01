@@ -19,14 +19,14 @@ FILETYPE VFT_APP
     BLOCK "040904e4"
     {
       VALUE "CompanyName", ""
-      VALUE "FileVersion", ""
+      VALUE "FileVersion", "0.1"
       VALUE "FileDescription", "Developed using the Red Panda C++ IDE"
       VALUE "InternalName", ""
       VALUE "LegalCopyright", ""
       VALUE "LegalTrademarks", ""
-      VALUE "OriginalFilename", ""
-      VALUE "ProductName", ""
-      VALUE "ProductVersion", ""
+      VALUE "OriginalFilename", "BigBrotherClient.exe"
+      VALUE "ProductName", "BigBrotherClient"
+      VALUE "ProductVersion", "0.1.1.1"
     }
   }
   BLOCK "VarFileInfo"
