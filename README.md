@@ -12,3 +12,5 @@
 > Jedná se o open-source projekt spadající pod MIT licenci.
 
 Tento projekt slouží pro monitoring studentů na střední průmyslové škole. Tento software má za účel předejít podvodům během testů, které jsou zaměřeny na programování. Projekt je v tuto chvíli ve fázi vývoje a všechny následující updaty zde budou zveřejňovány.
+
+> Během práce na projektu byla využita generativní AI pro generování loga tohoto softwaru. AI taktéž napomáhala se psaním zdrojového kódu a ošetřování kritických chyb, či učení se nových funkcionalit.
