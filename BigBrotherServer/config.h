@@ -14,6 +14,8 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 
+extern HANDLE hSaveMutex;
+
 #pragma comment(lib, "ws2_32.lib")
 
 #define CLOSE_SOCKET(s) closesocket(s)
@@ -52,7 +54,23 @@ typedef enum alertType{
 	WARNING = 3,
 	BYE = 4,
 	START = 5
-}alertType;
+} alertType;
+
+typedef struct PCNameNode {
+	char name[20];
+	struct PCNameNode* next;
+}PCNameNode;
+
+typedef struct PCNameList {
+	PCNameNode* first;
+	PCNameNode* last;
+}PCNameList;
+
+typedef struct alertCounter {
+	int type;
+	int count;
+	PCNameList* list;
+} alertCounter;
 
 #pragma pack(push, 1)
 typedef struct Packet {

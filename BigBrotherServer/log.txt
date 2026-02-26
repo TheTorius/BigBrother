@@ -1,0 +1,157 @@
+{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}{
+	"type":	0,
+	"count":	1,
+	"clients":	["ASUS-Lukáš"]
+}

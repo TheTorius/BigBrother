@@ -1,6 +1,7 @@
 #include "functions.h"
 
 int PORT = 12345;
+HANDLE hSaveMutex;
 
 int main() {
 	SocketList list;
@@ -8,11 +9,27 @@ int main() {
 	list.last = NULL;
 	list.numOfNodes = 0;
 	
+	alertCounter alerts[6];
+	for(int i = 0; i < 6; i++) {
+		alerts[i].type = i;
+		alerts[i].count = 0;
+		alerts[i].list = malloc(sizeof(PCNameList));
+		alerts[i].list->first = NULL;
+		alerts[i].list->last = NULL;
+	}
+	
+	hSaveMutex = CreateMutex(NULL, FALSE, NULL);
+	
 	SOCKET server_fd;
 	struct sockaddr_in address;
 	int addrlen = sizeof(address);
 	
 #ifdef _WIN32
+	if (!SetConsoleCtrlHandler(ConsoleHandler, TRUE)) {
+		printf("\nCHYBA: Nepodarilo se nastavit odchytavani zavreni okna!\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	WSADATA wsaData;
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
 		printf("Chyba: WSAStartup selhal.\n");
@@ -123,7 +140,10 @@ int main() {
 				break;
 			}
 			
-			print_packet(&pkt, client_ip);
+			print_packet(&pkt, client_ip, alerts);
+			WaitForSingleObject(hSaveMutex, INFINITE);
+			print_alerts_json(alerts);
+			ReleaseMutex(hSaveMutex);
 			MessageBeep(MB_ICONASTERISK);
 		} else {
 			printf("[CHYBA] Prijat neuplny packet nebo spatna velikost dat.\n");

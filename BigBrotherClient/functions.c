@@ -123,7 +123,7 @@ void monitor_environment(char* ip) {
 		
 		char msg[64];
 		snprintf(msg, 64, "Moc oken: %d", app_count);
-		send_alert_packet(ip, 12345, ALERT, msg);
+		send_alert_packet(ip, 12345, WARNING, msg);
 	}
 }
 

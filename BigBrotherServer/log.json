@@ -1,0 +1,27 @@
+{
+	"alerts_report":	[{
+			"type_id":	0,
+			"total_count":	1,
+			"clients":	["ASUS-Lukáš"]
+		}, {
+			"type_id":	1,
+			"total_count":	1,
+			"clients":	["ASUS-Lukáš"]
+		}, {
+			"type_id":	2,
+			"total_count":	13,
+			"clients":	["ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš"]
+		}, {
+			"type_id":	3,
+			"total_count":	0,
+			"clients":	[]
+		}, {
+			"type_id":	4,
+			"total_count":	0,
+			"clients":	[]
+		}, {
+			"type_id":	5,
+			"total_count":	1,
+			"clients":	["ASUS-Lukáš"]
+		}]
+}
