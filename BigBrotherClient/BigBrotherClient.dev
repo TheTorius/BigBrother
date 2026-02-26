@@ -44,16 +44,16 @@ UseUTF8 = 1
 
 
 [Unit1]
-FileName = functions.c
+FileName = config.h
 CompileCpp = 0
-Folder = Sources
+Folder = Headers
 Compile = 1
 Link = 1
 Priority = 1000
 OverrideBuildCmd = 0
 BuildCmd = 
 FileEncoding = PROJECT
-RealEncoding = ASCII
+RealEncoding = UTF-8
 
 
 [VersionInfo]
@@ -90,7 +90,7 @@ RealEncoding = UTF-8
 
 
 [Unit3]
-FileName = main.c
+FileName = functions.c
 CompileCpp = 0
 Folder = Sources
 Compile = 1
@@ -103,7 +103,7 @@ RealEncoding = UTF-8
 
 
 [Unit4]
-FileName = config.h
+FileName = functions.h
 CompileCpp = 0
 Folder = Headers
 Compile = 1
@@ -116,9 +116,9 @@ RealEncoding = UTF-8
 
 
 [Unit5]
-FileName = functions.h
+FileName = main.c
 CompileCpp = 0
-Folder = Headers
+Folder = Sources
 Compile = 1
 Link = 1
 Priority = 1000

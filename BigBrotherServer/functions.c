@@ -64,6 +64,15 @@ void print_alerts_json(alertCounter *ac) {
 		// Pro každý typ vytvoříme samostatný objekt
 		cJSON *type_obj = cJSON_CreateObject();
 		
+		switch (ac[i].type) {
+			case HELLO: cJSON_AddStringToObject(type_obj, "type_label","HELLO"); break;
+			case CONFIG: cJSON_AddStringToObject(type_obj, "type_label","CONFIG"); break;
+			case ALERT: cJSON_AddStringToObject(type_obj, "type_label","ALERT"); break;
+			case WARNING: cJSON_AddStringToObject(type_obj, "type_label","WARNING"); break;
+			case BYE: cJSON_AddStringToObject(type_obj, "type_label","BYE"); break;
+			case START: cJSON_AddStringToObject(type_obj, "type_label","START"); break;
+		}
+		
 		cJSON_AddNumberToObject(type_obj, "type_id", i);
 		cJSON_AddNumberToObject(type_obj, "total_count", ac[i].count);
 		

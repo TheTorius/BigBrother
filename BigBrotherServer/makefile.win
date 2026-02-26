@@ -30,7 +30,7 @@ BigBrotherServer.exe: $(OBJ)
 	$(CC) $(LINKOBJ) -o "BigBrotherServer.exe" $(LIBS)
 
 cJSON.o: cJSON.c cJSON.h
-	$(CC) -c "cJSON.c" -o "cJSON.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
+	$(CC) -c "cJSON.c" -o "cJSON.o" $(CFLAGS) 
 
 main.o: main.c config.h functions.h
 	$(CC) -c "main.c" -o "main.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250

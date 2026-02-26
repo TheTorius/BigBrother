@@ -13,10 +13,10 @@ CXXFLAGS = $(CXXINCS) "-g3" "-pipe" "-Wall" "-D_DEBUG"
 CFLAGS   = $(INCS) "-g3" "-pipe" "-Wall" "-D_DEBUG"
 WINDRESFLAGS = 
 RES      = BigBrotherClient_private.res
-OBJ      = main.o functions.o $(RES)
+OBJ      = functions.o main.o $(RES)
 BIN      = BigBrotherClient.exe
-LINKOBJ  = "main.o" "functions.o" "BigBrotherClient_private.res"
-CLEANOBJ = "main.o" "functions.o" "BigBrotherClient_private.res" "BigBrotherClient.exe"
+LINKOBJ  = "functions.o" "main.o" "BigBrotherClient_private.res"
+CLEANOBJ = "functions.o" "main.o" "BigBrotherClient_private.res" "BigBrotherClient.exe"
 
 .PHONY: all all-before all-after clean clean-custom
 
@@ -29,11 +29,11 @@ BigBrotherClient.exe: $(OBJ)
 
 	$(CC) $(LINKOBJ) -o "BigBrotherClient.exe" $(LIBS)
 
-main.o: main.c config.h functions.h
-	$(CC) -c "main.c" -o "main.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
-
 functions.o: functions.c config.h functions.h
 	$(CC) -c "functions.c" -o "functions.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
+
+main.o: main.c config.h functions.h
+	$(CC) -c "main.c" -o "main.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
 
 BigBrotherClient_private.res: BigBrotherClient_private.rc info.rc 
 	$(WINDRES) -i "BigBrotherClient_private.rc" --input-format=rc -o "BigBrotherClient_private.res" -O coff $(WINDRESFLAGS) 
