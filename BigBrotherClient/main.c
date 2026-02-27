@@ -12,6 +12,8 @@ int main(int argc, char* argv[]) {
 	GLOBAL_SERVER_IP[0] = '\0';
 	MAX_WIN_COUNT = 0;
 	nOfBlacklistItems = 0;
+	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
 	
 	BLACKLIST = malloc(1 * sizeof(char*));
 	//BLACKLIST[0] = (char *)malloc(31*sizeof(char));

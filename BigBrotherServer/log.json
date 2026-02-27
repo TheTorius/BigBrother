@@ -12,8 +12,8 @@
 		}, {
 			"type_label":	"ALERT",
 			"type_id":	2,
-			"total_count":	2,
-			"clients":	["ASUS-Lukáš", "ASUS-Lukáš"]
+			"total_count":	1,
+			"clients":	["ASUS-Lukáš"]
 		}, {
 			"type_label":	"WARNING",
 			"type_id":	3,
@@ -36,8 +36,6 @@
 			"clients":	[]
 		}],
 	"report":	[{
-			"ASUS-Lukáš":	"TheTorius (Lukáš Horák) a 12 dalších stránek – Osobní – Microso"
-		}, {
-			"ASUS-Lukáš":	"TheTorius (Lukáš Horák) a 12 dalších stránek – Osobní – Microso"
+			"ASUS-Lukáš":	"Google Gemini a 21 dalších stránek – Osobní – Microsoft? Edge"
 		}]
 }

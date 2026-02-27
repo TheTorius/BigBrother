@@ -10,6 +10,8 @@ int main() {
 	list.last = NULL;
 	list.numOfNodes = 0;
 	started = false;
+	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
 	
 	alertCounter alerts[NOfAlertTypes];
 	for(int i = 0; i < NOfAlertTypes; i++) {
@@ -37,7 +39,7 @@ int main() {
 		printf("Chyba: WSAStartup selhal.\n");
 		return 1;
 	}
-	SetConsoleOutputCP(65001);
+	
 #endif
 	
 	if (!SOCK_VALID(server_fd = socket(AF_INET, SOCK_STREAM, 0))) {

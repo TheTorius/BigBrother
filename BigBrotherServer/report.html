@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 p-6 font-sans text-gray-800">
+
+    <div class="max-w-6xl mx-auto space-y-6">
+        
+        <header class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <h1 class="text-3xl font-bold text-gray-800">Systémový Report</h1>
+            <p class="text-gray-500 mt-2">Přehled událostí a napomenutí na klientech.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col items-center">
+                <h2 class="text-xl font-semibold mb-4 w-full text-left">Poměr typů reportů</h2>
+                <div class="w-full max-w-xs">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col items-center">
+                <h2 class="text-xl font-semibold mb-4 w-full text-left">Celkový počet událostí</h2>
+                <div class="w-full h-64">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-xl font-semibold mb-4">Detaily událostí (Aktivní)</h2>
+            <div id="cardsContainer" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Tvá zdrojová JSON data vložená přímo do kódu
+        const jsonData = {
+            "alerts_report": [{
+                "type_label": "HELLO", "type_id": 0, "total_count": 0, "clients": []
+            }, {
+                "type_label": "CONFIG", "type_id": 1, "total_count": 0, "clients": []
+            }, {
+                "type_label": "ALERT", "type_id": 2, "total_count": 2, "clients": ["ASUS-Luk", "ASUS-Luk"]
+            }, {
+                "type_label": "WARNING", "type_id": 3, "total_count": 0, "clients": []
+            }, {
+                "type_label": "BYE", "type_id": 4, "total_count": 0, "clients": []
+            }, {
+                "type_label": "START", "type_id": 5, "total_count": 0, "clients": []
+            }, {
+                "type_label": "WAITING", "type_id": 6, "total_count": 0, "clients": []
+            }],
+            "report": [{
+                "ASUS-Luk": "TheTorius (Luk Hork) a 12 dalch strnek  Osobn  Microso"
+            }, {
+                "ASUS-Luk": "TheTorius (Luk Hork) a 12 dalch strnek  Osobn  Microso"
+            }]
+        };
+
+        // --- PŘÍPRAVA DAT ---
+        const labels = jsonData.alerts_report.map(alert => alert.type_label);
+        const counts = jsonData.alerts_report.map(alert => alert.total_count);
+
+        // Zmapování detailních reportů a shlukování duplicit (Počítání výskytů)
+        const clientDetails = {};
+        jsonData.report.forEach(item => {
+            for (const [client, detail] of Object.entries(item)) {
+                if (!clientDetails[client]) clientDetails[client] = {};
+                
+                // Pokud už hláška existuje, přičteme 1, jinak nastavíme na 1
+                if (!clientDetails[client][detail]) {
+                    clientDetails[client][detail] = 1;
+                } else {
+                    clientDetails[client][detail]++;
+                }
+            }
+        });
+
+        // Společné barvy pro grafy
+        const backgroundColors = [
+            'rgba(54, 162, 235, 0.6)', 'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 99, 132, 0.6)', 'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)', 'rgba(255, 159, 64, 0.6)', 'rgba(201, 203, 207, 0.6)'
+        ];
+        const borderColors = backgroundColors.map(color => color.replace('0.6', '1'));
+
+        // --- VYKRESLENÍ GRAFŮ ---
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{ data: counts, backgroundColor: backgroundColors, borderColor: borderColors, borderWidth: 1 }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{ label: 'Počet záznamů', data: counts, backgroundColor: backgroundColors, borderColor: borderColors, borderWidth: 1 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // --- VYKRESLENÍ KARET (CARDS) ---
+        const cardsContainer = document.getElementById('cardsContainer');
+        const activeAlerts = jsonData.alerts_report.filter(alert => alert.total_count > 0);
+
+        if (activeAlerts.length === 0) {
+            cardsContainer.innerHTML = '<p class="text-gray-500 italic">Žádné události k zobrazení.</p>';
+        } else {
+            activeAlerts.forEach(alert => {
+                let clientsHTML = '';
+                const uniqueClients = [...new Set(alert.clients)];
+
+                uniqueClients.forEach(client => {
+                    // Získáme objekt s hláškami a jejich počty pro daného klienta
+                    const detailsObj = clientDetails[client] || { 'Žádný konkrétní detail nebyl nalezen.': 1 };
+                    
+                    // Projdeme unikátní hlášky a vygenerujeme <li> elementy
+                    const detailsListHTML = Object.entries(detailsObj).map(([message, count]) => {
+                        // Pokud se hláška opakuje vícekrát, přidáme (Xx)
+                        const countBadge = count > 1 ? `<span class="font-bold text-red-600 mr-1">(${count}x)</span>` : '';
+                        return `<li class="text-sm text-gray-600 ml-4 list-disc mb-1">${countBadge}${message}</li>`;
+                    }).join('');
+                    
+                    clientsHTML += `
+                        <div class="mt-2 p-3 bg-gray-50 rounded border border-gray-100">
+                            <span class="font-semibold text-gray-700">Klient: ${client}</span>
+                            <ul class="mt-2">${detailsListHTML}</ul>
+                        </div>
+                    `;
+                });
+
+                const cardHTML = `
+                    <div class="card bg-white p-4 border-l-4 border-red-500 rounded-r-lg shadow-sm border-y border-r border-gray-200 mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-bold text-gray-800">Typ: ${alert.type_label}</h3>
+                            <span class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded">Počet: ${alert.total_count}</span>
+                        </div>
+                        <div class="mt-3">
+                            ${clientsHTML}
+                        </div>
+                    </div>
+                `;
+                cardsContainer.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+    </script>
+</body>
+</html>
