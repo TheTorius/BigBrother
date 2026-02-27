@@ -10,7 +10,7 @@
 #include <time.h>
 #include <stdint.h>
 
-#define VERSION 1.1
+#define VERSION 1.2
 #pragma comment(lib, "ws2_32.lib")
 
 extern char GLOBAL_SERVER_IP[16];
