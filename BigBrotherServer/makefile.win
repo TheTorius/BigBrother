@@ -32,10 +32,10 @@ BigBrotherServer.exe: $(OBJ)
 cJSON.o: cJSON.c cJSON.h
 	$(CC) -c "cJSON.c" -o "cJSON.o" $(CFLAGS) 
 
-main.o: main.c config.h functions.h
+main.o: main.c functions.h config.h
 	$(CC) -c "main.c" -o "main.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
 
-functions.o: functions.c config.h functions.h cJSON.h
+functions.o: functions.c cJSON.h functions.h config.h
 	$(CC) -c "functions.c" -o "functions.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
 
 BigBrotherServer_private.res: BigBrotherServer_private.rc 

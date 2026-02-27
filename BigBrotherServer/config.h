@@ -7,6 +7,7 @@
 #include <time.h>
 #include <conio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 // --- MULTIPLATFORMNÍ HLAVIČKY A MAKRA ---
 

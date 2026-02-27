@@ -2,12 +2,14 @@
 
 int PORT = 12345;
 HANDLE hSaveMutex;
+bool started;
 
 int main() {
 	SocketList list;
 	list.start = NULL;
 	list.last = NULL;
 	list.numOfNodes = 0;
+	started = false;
 	
 	alertCounter alerts[6];
 	for(int i = 0; i < 6; i++) {
@@ -73,6 +75,7 @@ int main() {
 	
 	while (1) {
 		if (GetAsyncKeyState('P') & 0x8000) {
+			started = true;
 			printf("Posilam start\n");
 			SocketNode* np = NULL;
 			for(SocketNode* n = list.start; n != NULL; n = n->nextNode) {
@@ -140,11 +143,13 @@ int main() {
 				break;
 			}
 			
-			print_packet(&pkt, client_ip, alerts);
-			WaitForSingleObject(hSaveMutex, INFINITE);
-			print_alerts_json(alerts);
-			ReleaseMutex(hSaveMutex);
-			MessageBeep(MB_ICONASTERISK);
+			if(started) {
+				print_packet(&pkt, client_ip, alerts);
+				WaitForSingleObject(hSaveMutex, INFINITE);
+				print_alerts_json(alerts);
+				ReleaseMutex(hSaveMutex);
+				MessageBeep(MB_ICONASTERISK);	
+			}
 		} else {
 			printf("[CHYBA] Prijat neuplny packet nebo spatna velikost dat.\n");
 		}
