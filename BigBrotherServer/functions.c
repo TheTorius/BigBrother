@@ -60,7 +60,7 @@ void print_alerts_json(alertCounter *ac) {
 	cJSON *all_types_array = cJSON_AddArrayToObject(root, "alerts_report");
 	
 	// Iterujeme skrz všech 6 typů (0 až 5)
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < NOfAlertTypes; i++) {
 		// Pro každý typ vytvoříme samostatný objekt
 		cJSON *type_obj = cJSON_CreateObject();
 		
@@ -71,6 +71,7 @@ void print_alerts_json(alertCounter *ac) {
 			case WARNING: cJSON_AddStringToObject(type_obj, "type_label","WARNING"); break;
 			case BYE: cJSON_AddStringToObject(type_obj, "type_label","BYE"); break;
 			case START: cJSON_AddStringToObject(type_obj, "type_label","START"); break;
+			case WAITING: cJSON_AddStringToObject(type_obj, "type_label","WAITING"); break;
 		}
 		
 		cJSON_AddNumberToObject(type_obj, "type_id", i);

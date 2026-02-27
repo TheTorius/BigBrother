@@ -48,14 +48,17 @@ typedef struct SocketList {
 }SocketList;
 
 // --- DEKLARACE STRUKTUR (Musí být shodné s klientem!) ---
+#define NOfAlertTypes 7
+
 typedef enum alertType{
 	HELLO = 0,
 	CONFIG = 1,
 	ALERT = 2,
 	WARNING = 3,
 	BYE = 4,
-	START = 5
-} alertType;
+	START = 5,
+	WAITING = 6
+}alertType;
 
 typedef struct PCNameNode {
 	char name[20];

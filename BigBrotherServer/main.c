@@ -11,8 +11,8 @@ int main() {
 	list.numOfNodes = 0;
 	started = false;
 	
-	alertCounter alerts[6];
-	for(int i = 0; i < 6; i++) {
+	alertCounter alerts[NOfAlertTypes];
+	for(int i = 0; i < NOfAlertTypes; i++) {
 		alerts[i].type = i;
 		alerts[i].count = 0;
 		alerts[i].list = malloc(sizeof(PCNameList));
@@ -128,17 +128,22 @@ int main() {
 			
 			switch (pkt.type) {
 				case HELLO: {
-				send_response(*new_socket,HELLO,"HELLO");
-				break;
-			}
+					send_response(*new_socket,HELLO,"HELLO");
+					break;
+				}
 				case CONFIG: {
 					send_response(*new_socket,CONFIG,"CONFIG");
 					break;
 				}
-			case START:
-				list.numOfNodes++;
-				printf("Clients: %d\n", list.numOfNodes);
-				break;
+				case WAITING: {
+					send_response(*new_socket,WAITING,"WAITING");
+					break;
+				}
+				case START: {
+					list.numOfNodes++;
+					printf("Clients: %d\n", list.numOfNodes);
+					break;
+				}
 			default:
 				break;
 			}

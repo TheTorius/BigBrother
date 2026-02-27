@@ -13,10 +13,10 @@ CXXFLAGS = $(CXXINCS) "-g3" "-pipe" "-Wall" "-D_DEBUG"
 CFLAGS   = $(INCS) "-g3" "-pipe" "-Wall" "-D_DEBUG"
 WINDRESFLAGS = 
 RES      = BigBrotherServer_private.res
-OBJ      = cJSON.o main.o functions.o $(RES)
+OBJ      = main.o functions.o cJSON.o $(RES)
 BIN      = BigBrotherServer.exe
-LINKOBJ  = "cJSON.o" "main.o" "functions.o" "BigBrotherServer_private.res"
-CLEANOBJ = "cJSON.o" "main.o" "functions.o" "BigBrotherServer_private.res" "BigBrotherServer.exe"
+LINKOBJ  = "main.o" "functions.o" "cJSON.o" "BigBrotherServer_private.res"
+CLEANOBJ = "main.o" "functions.o" "cJSON.o" "BigBrotherServer_private.res" "BigBrotherServer.exe"
 
 .PHONY: all all-before all-after clean clean-custom
 
@@ -29,14 +29,14 @@ BigBrotherServer.exe: $(OBJ)
 
 	$(CC) $(LINKOBJ) -o "BigBrotherServer.exe" $(LIBS)
 
-cJSON.o: cJSON.c cJSON.h
-	$(CC) -c "cJSON.c" -o "cJSON.o" $(CFLAGS) 
-
-main.o: main.c functions.h config.h
+main.o: main.c config.h functions.h
 	$(CC) -c "main.c" -o "main.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
 
-functions.o: functions.c cJSON.h functions.h config.h
+functions.o: functions.c config.h functions.h cJSON.h
 	$(CC) -c "functions.c" -o "functions.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
+
+cJSON.o: cJSON.c cJSON.h
+	$(CC) -c "cJSON.c" -o "cJSON.o" $(CFLAGS) 
 
 BigBrotherServer_private.res: BigBrotherServer_private.rc 
 	$(WINDRES) -i "BigBrotherServer_private.rc" --input-format=rc -o "BigBrotherServer_private.res" -O coff $(WINDRESFLAGS) 

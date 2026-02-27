@@ -1,25 +1,5 @@
 [
     {
-        "caretX": 23,
-        "caretY": 15,
-        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/main.c",
-        "focused": false,
-        "isOpen": true,
-        "left": 0,
-        "order": 0,
-        "top": 0
-    },
-    {
-        "caretX": 11,
-        "caretY": 56,
-        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/config.h",
-        "focused": false,
-        "isOpen": true,
-        "left": 0,
-        "order": 1,
-        "top": 975
-    },
-    {
         "caretX": 42,
         "caretY": 9,
         "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/functions.h",
@@ -30,13 +10,33 @@
         "top": 0
     },
     {
-        "caretX": 43,
-        "caretY": 109,
-        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/functions.c",
+        "caretX": 13,
+        "caretY": 117,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/main.c",
         "focused": true,
         "isOpen": true,
         "left": 0,
+        "order": 0,
+        "top": 3375
+    },
+    {
+        "caretX": 20,
+        "caretY": 10,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/config.h",
+        "focused": false,
+        "isOpen": true,
+        "left": 0,
+        "order": 1,
+        "top": 0
+    },
+    {
+        "caretX": 43,
+        "caretY": 109,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherServer/functions.c",
+        "focused": false,
+        "isOpen": true,
+        "left": 0,
         "order": 3,
-        "top": 1425
+        "top": 0
     }
 ]

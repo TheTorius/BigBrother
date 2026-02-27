@@ -25,7 +25,8 @@ typedef enum alertType{
 	ALERT = 2,
 	WARNING = 3,
 	BYE = 4,
-	START = 5
+	START = 5,
+	WAITING = 6
 }alertType;
 
 #pragma pack(push, 1)

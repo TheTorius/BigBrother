@@ -84,6 +84,8 @@ int main(int argc, char* argv[]) {
 			Sleep(500);
 			if(send_alert_packet(GLOBAL_SERVER_IP,PORT,CONFIG,"CONFIG") != 2) continue;
 			Sleep(500);
+			if(send_alert_packet(GLOBAL_SERVER_IP,PORT,WAITING,"WAITING") != 2) continue;
+			Sleep(500);
 			if(send_alert_packet(GLOBAL_SERVER_IP,PORT,START,"START") != 2) continue;
 			break;
 		}

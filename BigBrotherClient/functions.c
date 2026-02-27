@@ -66,9 +66,14 @@ int send_alert_packet(const char* server_ip, int port, alertType type, const cha
 	printf(">> Odeslan packet [TYPE: %d] na server.\n", type);
 	
 	if (type == HELLO || type == CONFIG || type == START) {
-		printf(".. cekam na potvrzeni od serveru ..\n");
+		int bytes;
 		Packet response;
-		int bytes = recv(sock, (char*)&response, sizeof(Packet), 0);
+		bytes = recv(sock, (char*)&response, sizeof(Packet), 0);
+		while(type == START && bytes <= 0){
+			printf(".. cekam na potvrzeni od serveru ..\n");
+			bytes = recv(sock, (char*)&response, sizeof(Packet), 0);
+			Sleep(1000);
+		}
 		
 		if (bytes > 0) {
 			printf("<< Prijata odpoved: %s\n", response.message);
@@ -79,6 +84,7 @@ int send_alert_packet(const char* server_ip, int port, alertType type, const cha
 		if(response.type == type) return 2;
 		return 0;
 	}
+	if(type == WAITING) return 2;
 	
 	closesocket(sock);
 	return 1;
