@@ -34,7 +34,7 @@ SupportXPThemes = 0
 CompilerSet = 1
 StaticLink = 0
 AddCharset = 1
-ExecEncoding = SYSTEM
+ExecEncoding = UTF-8
 Encoding = UTF-8
 ModelType = 0
 ClassBrowserType = 0
@@ -44,16 +44,16 @@ UseUTF8 = 1
 
 
 [Unit1]
-FileName = cJSON.h
+FileName = main.c
 CompileCpp = 0
-Folder = Headers
-Compile = 0
-Link = 0
+Folder = Sources
+Compile = 1
+Link = 1
 Priority = 1000
 OverrideBuildCmd = 0
 BuildCmd = 
 FileEncoding = PROJECT
-RealEncoding = ASCII
+RealEncoding = UTF-8
 
 
 [VersionInfo]
@@ -77,45 +77,6 @@ SyncProduct = 1
 
 
 [Unit2]
-FileName = functions.h
-CompileCpp = 0
-Folder = Headers
-Compile = 0
-Link = 0
-Priority = 1000
-OverrideBuildCmd = 0
-BuildCmd = 
-FileEncoding = PROJECT
-RealEncoding = UTF-8
-
-
-[Unit3]
-FileName = cJSON.c
-CompileCpp = 0
-Folder = Sources
-Compile = 1
-Link = 1
-Priority = 1000
-OverrideBuildCmd = 0
-BuildCmd = 
-FileEncoding = PROJECT
-RealEncoding = ASCII
-
-
-[Unit4]
-FileName = main.c
-CompileCpp = 0
-Folder = Sources
-Compile = 1
-Link = 1
-Priority = 1000
-OverrideBuildCmd = 0
-BuildCmd = 
-FileEncoding = PROJECT
-RealEncoding = UTF-8
-
-
-[Unit5]
 FileName = config.h
 CompileCpp = 0
 Folder = Headers
@@ -128,7 +89,7 @@ FileEncoding = PROJECT
 RealEncoding = UTF-8
 
 
-[Unit6]
+[Unit3]
 FileName = functions.c
 CompileCpp = 0
 Folder = Sources
@@ -141,10 +102,65 @@ FileEncoding = PROJECT
 RealEncoding = UTF-8
 
 
+[Unit4]
+FileName = functions.h
+CompileCpp = 0
+Folder = Headers
+Compile = 0
+Link = 0
+Priority = 1000
+OverrideBuildCmd = 0
+BuildCmd = 
+FileEncoding = PROJECT
+RealEncoding = UTF-8
+
+
+[Unit5]
+FileName = cJSON.h
+CompileCpp = 0
+Folder = Headers
+Compile = 0
+Link = 0
+Priority = 1000
+OverrideBuildCmd = 0
+BuildCmd = 
+FileEncoding = PROJECT
+RealEncoding = ASCII
+
+
+[Unit6]
+FileName = cJSON.c
+CompileCpp = 0
+Folder = Sources
+Compile = 1
+Link = 1
+Priority = 1000
+OverrideBuildCmd = 0
+BuildCmd = 
+FileEncoding = PROJECT
+RealEncoding = ASCII
+
+
 [CompilerSettings]
 c_cmd_opt_std = 
+cc_cmd_opt_abort_on_error = 
+cc_cmd_opt_address_sanitizer = 
+cc_cmd_opt_check_iso_conformance = 
 cc_cmd_opt_debug_info = on
+cc_cmd_opt_inhibit_all_warning = 
+cc_cmd_opt_instruction = 
+cc_cmd_opt_optimize = 
+cc_cmd_opt_pointer_size = 
+cc_cmd_opt_profile_info = 
+cc_cmd_opt_stack_protector = 
 cc_cmd_opt_std = 
+cc_cmd_opt_syntax_only = 
 cc_cmd_opt_use_pipe = on
 cc_cmd_opt_warning_all = on
+cc_cmd_opt_warning_as_error = 
+cc_cmd_opt_warning_extra = 
+cc_opt_enable_gcc_import_std = 
+link_cmd_opt_no_console = 
+link_cmd_opt_no_link_stdlib = 
 link_cmd_opt_stack_size = 12
+link_cmd_opt_strip_exe = 

@@ -1,52 +1,52 @@
 [
     {
-        "caretX": 11,
-        "caretY": 28,
-        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/config.h",
-        "focused": false,
-        "isOpen": true,
-        "left": 0,
-        "order": 1,
-        "top": 150
-    },
-    {
-        "caretX": 4,
-        "caretY": 25,
-        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/info.rc",
-        "focused": false,
-        "isOpen": true,
-        "left": 0,
-        "order": 4,
-        "top": 25
-    },
-    {
-        "caretX": 1,
-        "caretY": 169,
+        "caretX": 34,
+        "caretY": 84,
         "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/functions.c",
         "focused": false,
         "isOpen": true,
         "left": 0,
         "order": 3,
-        "top": 2275
+        "top": 1800
     },
     {
-        "caretX": 4,
-        "caretY": 9,
+        "caretX": 34,
+        "caretY": 17,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/config.h",
+        "focused": false,
+        "isOpen": true,
+        "left": 0,
+        "order": 1,
+        "top": 300
+    },
+    {
+        "caretX": 15,
+        "caretY": 21,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/main.c",
+        "focused": true,
+        "isOpen": true,
+        "left": 0,
+        "order": 0,
+        "top": 0
+    },
+    {
+        "caretX": 33,
+        "caretY": 13,
+        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/info.rc",
+        "focused": false,
+        "isOpen": true,
+        "left": 0,
+        "order": 4,
+        "top": 225
+    },
+    {
+        "caretX": 20,
+        "caretY": 4,
         "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/functions.h",
         "focused": false,
         "isOpen": true,
         "left": 0,
         "order": 2,
         "top": 0
-    },
-    {
-        "caretX": 29,
-        "caretY": 47,
-        "filename": "C:/Users/lukas/Desktop/Big Brother/BigBrotherClient/main.c",
-        "focused": true,
-        "isOpen": true,
-        "left": 0,
-        "order": 0,
-        "top": 850
     }
 ]

@@ -29,10 +29,10 @@ BigBrotherClient.exe: $(OBJ)
 
 	$(CC) $(LINKOBJ) -o "BigBrotherClient.exe" $(LIBS)
 
-functions.o: functions.c functions.h config.h
-	$(CC) -c "functions.c" -o "functions.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
+functions.o: functions.c config.h functions.h
+	$(CC) -c "functions.c" -o "functions.o" $(CFLAGS) 
 
-main.o: main.c functions.h config.h
+main.o: main.c config.h functions.h
 	$(CC) -c "main.c" -o "main.o" $(CFLAGS) 
 
 BigBrotherClient_private.res: BigBrotherClient_private.rc info.rc 
