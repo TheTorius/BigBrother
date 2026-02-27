@@ -62,6 +62,7 @@ typedef enum alertType{
 
 typedef struct PCNameNode {
 	char name[20];
+	char violation[256];
 	struct PCNameNode* next;
 }PCNameNode;
 

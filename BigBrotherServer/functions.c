@@ -34,6 +34,7 @@ void print_packet(Packet *pkt, const char* client_ip, alertCounter* alerts ) {
 		alerts[pkt->type].list->last->next = NULL;
 		strcpy(alerts[pkt->type].list->last->name,pkt->ip);
 	}
+	if(pkt->type == ALERT) strcpy(alerts[ALERT].list->last->violation,pkt->message);
 	
 	printf("--------------------------------------------------\n");
 	printf("[PRIJATO] Z IP: %s (Hlaseno jako ID: %s)\n", client_ip, pkt->ip);
@@ -136,6 +137,15 @@ void print_alerts_json(alertCounter *ac) {
 		
 		// Objekt typu vložíme do hlavního pole
 		cJSON_AddItemToArray(all_types_array, type_obj);
+	}
+	cJSON *errMess = cJSON_AddArrayToObject(root,"report");
+	
+	PCNameNode* current = ac[ALERT].list->first;
+	while(current != NULL) {
+		cJSON *report = cJSON_CreateObject();
+		cJSON_AddStringToObject(report,current->name,current->violation);
+		cJSON_AddItemToArray(errMess,report);
+		current = current->next;
 	}
 	
 	// 2. Převod na string a zápis do souboru
