@@ -76,7 +76,40 @@ int send_alert_packet(const char* server_ip, int port, alertType type, const cha
 		}
 		
 		if (bytes > 0) {
-			printf("<< Prijata odpoved: %s\n", response.message);
+			response.message[sizeof(response.message) - 1] = '\0';
+			if(type != CONFIG) printf("<< Prijata odpoved: %s\n", response.message);
+			else printf("<< Config obdrzen\n");
+			
+#ifdef DEBUG
+			printf("%s",response.message);
+#endif
+			
+			if(type == CONFIG) {
+				char* token = strtok(response.message, ",\n");
+				while(token != NULL) {
+					// Alokujeme místo pro dosavadní položky + novou položku + ukončovací NULL
+					char **temp = (char **)realloc(BLACKLIST, (nOfBlacklistItems + 2) * sizeof(char*));
+					if(temp == NULL) {
+						exit(EXIT_FAILURE);
+					}
+					BLACKLIST = temp;
+					
+					// Alokujeme místo pro text
+					BLACKLIST[nOfBlacklistItems] = (char *)malloc(31 * sizeof(char));
+					
+					// Bezpečné kopírování s garancí konce
+					strncpy(BLACKLIST[nOfBlacklistItems], token, 30);
+					BLACKLIST[nOfBlacklistItems][30] = '\0';
+					
+					nOfBlacklistItems++; // Zvýšíme počet
+					
+					// ZAJIŠTĚNÍ KONCE POLE (Důležité pro is_forbidden!)
+					BLACKLIST[nOfBlacklistItems] = NULL; 
+					
+					token = strtok(NULL, "\n,\0");
+				}
+			}
+			
 		} else {
 			printf("!! Server neodpovedel nebo ukoncil spojeni.\n");
 			return 0;

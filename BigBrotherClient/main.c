@@ -4,27 +4,17 @@ char GLOBAL_SERVER_IP[16] = "127.0.0.1";
 int MAX_WIN_COUNT = 50;
 int PORT = 12345;
 
-char *BLACKLIST[] = {
-	"chrome",
-	"firefox",
-	"edge",
-	"opera",
-	"seznam",
-	"chat",
-	"winscp",
-	"cmd",
-	"console",
-	"far",
-	"outlook",
-	"teams",
-	"kazov",
-	NULL 
-};
+char **BLACKLIST = NULL;
+int nOfBlacklistItems;
 
 int main(int argc, char* argv[]) {
 	PORT = 0;
 	GLOBAL_SERVER_IP[0] = '\0';
 	MAX_WIN_COUNT = 0;
+	nOfBlacklistItems = 0;
+	
+	BLACKLIST = malloc(1 * sizeof(char*));
+	//BLACKLIST[0] = (char *)malloc(31*sizeof(char));
 	
 	for(int i = 1; i < argc; i++) {
 		if(!strcmp(argv[i],"-port")) {

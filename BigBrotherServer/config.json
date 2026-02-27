@@ -1,0 +1,17 @@
+{
+    "blacklist": [
+        "chrome",
+        "firefox",
+        "edge",
+        "opera",
+        "seznam",
+        "chat",
+        "winscp",
+        "cmd",
+        "console",
+        "far",
+        "outlook",
+        "teams",
+        "kazov" 
+    ]
+}

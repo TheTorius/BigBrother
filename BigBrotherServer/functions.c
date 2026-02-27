@@ -49,7 +49,52 @@ void send_response(SOCKET socket, alertType type, char* string) {
 	gethostname(response.ip, sizeof(response.ip));
 	response.type = type;
 	response.timestamp = (int64_t)time(NULL);
-	strncpy(response.message, string, 63);
+	if(type == CONFIG) {
+		FILE *f = fopen("config.json","r");
+		if(!f) exit(EXIT_FAILURE);
+		
+		fseek(f, 0, SEEK_END);
+		long size = ftell(f);
+		fseek(f, 0, SEEK_SET);
+		
+		char *buffer = malloc(size + 1);
+		fread(buffer, 1, size, f);
+		buffer[size] = '\0';
+		fclose(f);
+		
+		// 2. Parsování JSONu
+		cJSON *json = cJSON_Parse(buffer);
+		if (json == NULL) {
+			free(buffer);
+			exit(EXIT_FAILURE);
+		}
+		
+		cJSON *blacklist = cJSON_GetObjectItemCaseSensitive(json, "blacklist");
+		
+		// 3. Spojení prvků do jednoho stringu
+		// Odhadneme velikost (pro začátek 256 bajtů, nebo dynamicky)
+		char result_string[512] = ""; 
+		
+		if (cJSON_IsArray(blacklist)) {
+			int array_size = cJSON_GetArraySize(blacklist);
+			for (int i = 0; i < array_size; i++) {
+				cJSON *item = cJSON_GetArrayItem(blacklist, i);
+				if (cJSON_IsString(item)) {
+					strcat(result_string, item->valuestring);
+					
+					// Přidáme čárku, pokud to není poslední prvek
+					if (i < array_size - 1) {
+						strcat(result_string, ",");
+					}
+				}
+			}
+		}
+		strncpy(response.message,result_string,sizeof(response.message)-1);
+		
+		cJSON_Delete(json);
+		free(buffer);
+	}
+	else strncpy(response.message, string, sizeof(response.message)-1);
 	
 	send(socket, (char*)&response, sizeof(Packet), 0);
 }

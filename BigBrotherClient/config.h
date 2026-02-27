@@ -12,12 +12,13 @@
 
 #define VERSION 1.2
 #pragma comment(lib, "ws2_32.lib")
+//#define DEBUG
 
 extern char GLOBAL_SERVER_IP[16];
 extern int MAX_WIN_COUNT;
 extern int PORT;
 
-extern char *BLACKLIST[];
+extern char **BLACKLIST;
 
 typedef enum alertType{
 	HELLO = 0,
@@ -34,7 +35,7 @@ typedef struct Packet {
 	char ip[16];        
 	int type;           
 	int64_t timestamp;  
-	char message[64];  
+	char message[512];  
 } Packet;
 #pragma pack(pop)
 

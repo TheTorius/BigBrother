@@ -13,4 +13,7 @@ void snapshot_code(const char *filepath);
 void install_to_startup(const char* app_name);
 void setupConsole();
 
+extern char **BLACKLIST;
+extern int nOfBlacklistItems;
+
 #endif

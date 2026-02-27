@@ -81,7 +81,7 @@ typedef struct Packet {
 	char ip[16];        // Identifikátor/IP klienta
 	int type;           // AlertType
 	int64_t timestamp;  // Časová značka
-	char message[64];   // Zpráva (např. název okna)
+	char message[512];   // Zpráva (např. název okna)
 } Packet;
 #pragma pack(pop)
 

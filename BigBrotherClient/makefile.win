@@ -30,7 +30,7 @@ BigBrotherClient.exe: $(OBJ)
 	$(CC) $(LINKOBJ) -o "BigBrotherClient.exe" $(LIBS)
 
 functions.o: functions.c functions.h config.h
-	$(CC) -c "functions.c" -o "functions.o" $(CFLAGS) 
+	$(CC) -c "functions.c" -o "functions.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=windows-1250
 
 main.o: main.c functions.h config.h
 	$(CC) -c "main.c" -o "main.o" $(CFLAGS) 

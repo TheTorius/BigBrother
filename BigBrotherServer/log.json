@@ -12,13 +12,13 @@
 		}, {
 			"type_label":	"ALERT",
 			"type_id":	2,
-			"total_count":	2,
-			"clients":	["ASUS-Lukáš", "ASUS-Lukáš"]
+			"total_count":	1,
+			"clients":	["ASUS-Lukáš"]
 		}, {
 			"type_label":	"WARNING",
 			"type_id":	3,
-			"total_count":	14,
-			"clients":	["ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš", "ASUS-Lukáš"]
+			"total_count":	0,
+			"clients":	[]
 		}, {
 			"type_label":	"BYE",
 			"type_id":	4,
